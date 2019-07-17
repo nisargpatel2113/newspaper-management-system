@@ -100,4 +100,12 @@ public class NewspaperType {
 	public void setNewspaper(Newspaper newspaper) {
 		this.newspaper = newspaper;
 	}
+
+	@Override
+	public String toString() {
+		return "NewspaperType [newspaperTypeId=" + newspaperTypeId + ", typeName=" + typeName + ", createdDate="
+				+ createdDate + ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
+				+ ", newspaper=" + newspaper + "]";
+	}
+
 }

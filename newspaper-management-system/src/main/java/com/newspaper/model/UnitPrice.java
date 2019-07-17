@@ -19,7 +19,6 @@ public class UnitPrice {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "unit_price_id")
 	private long unitPriceId;
 
 	@Column(name = "monday_price")
@@ -45,18 +44,14 @@ public class UnitPrice {
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh.mm.ss")
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_date")
 	private Date createdDate;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh.mm.ss")
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated_date")
 	private Date updatedDate;
 
-	@Column(name = "created_by")
 	private String createdBy;
 
-	@Column(name = "updated_by")
 	private String updatedBy;
 
 	@OneToOne(mappedBy = "unitPrice", cascade = CascadeType.ALL)
@@ -164,6 +159,14 @@ public class UnitPrice {
 
 	public void setNewspaper(Newspaper newspaper) {
 		this.newspaper = newspaper;
+	}
+
+	@Override
+	public String toString() {
+		return "UnitPrice [unitPriceId=" + unitPriceId + ", monday=" + monday + ", tuesday=" + tuesday + ", wednesday="
+				+ wednesday + ", thrusday=" + thrusday + ", friday=" + friday + ", saturday=" + saturday + ", sunday="
+				+ sunday + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", createdBy=" + createdBy
+				+ ", updatedBy=" + updatedBy + ", newspaper=" + newspaper + "]";
 	}
 
 }

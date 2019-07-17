@@ -8,8 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
@@ -21,30 +22,30 @@ public class Subscription {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long subscriptionId;
-	
+
 	@NotBlank(message = "Subscription days is mandatory")
 	private int subscriptionDays;
-	
+
 	private boolean isActive;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh.mm.ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh.mm.ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedDate;
-	
+
 	private String createdBy;
-	
+
 	private String updatedBy;
-	
-	@ManyToMany(mappedBy = "subscriptions")
-	private Set<Customer> customer;
-	
-	@OneToOne(mappedBy = "subscription", cascade = CascadeType.ALL)
-	private Newspaper newspaper;
-//	private Newspaper newspaper;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "customerId")
+	private Customer customer;
+
+	@OneToMany(mappedBy = "subscription")
+	private Set<Newspaper> newspaper;
 
 	public long getSubscriptionId() {
 		return subscriptionId;
@@ -102,21 +103,28 @@ public class Subscription {
 		this.updatedDate = updatedDate;
 	}
 
-	public Set<Customer> getCustomer() {
+	public Customer getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(Set<Customer> customer) {
+	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
 
-	public Newspaper getNewspaper() {
+	public Set<Newspaper> getNewspaper() {
 		return newspaper;
 	}
 
-	public void setNewspaper(Newspaper newspaper) {
+	public void setNewspaper(Set<Newspaper> newspaper) {
 		this.newspaper = newspaper;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Subscription [subscriptionId=" + subscriptionId + ", subscriptionDays=" + subscriptionDays
+				+ ", isActive=" + isActive + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate
+				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", customer=" + customer + ", newspaper="
+				+ newspaper + "]";
+	}
+
 }

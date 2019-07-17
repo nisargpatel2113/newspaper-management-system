@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -62,8 +63,8 @@ public class Newspaper {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "unit_price_id")
 	private UnitPrice unitPrice;
-	
-	@OneToOne(cascade = CascadeType.ALL)
+
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "subscriptionId")
 	private Subscription subscription;
 
@@ -146,4 +147,13 @@ public class Newspaper {
 	public void setSubscription(Subscription subscription) {
 		this.subscription = subscription;
 	}
+
+	@Override
+	public String toString() {
+		return "Newspaper [newspaperId=" + newspaperId + ", name=" + name + ", createdDate=" + createdDate
+				+ ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
+				+ ", isActive=" + isActive + ", newspaperType=" + newspaperType + ", unitPrice=" + unitPrice
+				+ ", subscription=" + subscription + "]";
+	}
+
 }

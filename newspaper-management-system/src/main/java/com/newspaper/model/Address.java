@@ -17,32 +17,32 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long addressId;
-	
+
 	@NotBlank(message = "House number is mandatory")
 	private String houseNumber;
-	
+
 	@NotBlank(message = "Address line 1 is mandatory")
 	private String addLine1;
-	
+
 	@NotBlank(message = "Pincode is mandatory")
 	private String addLine2;
-	
+
 	@NotBlank(message = "Pincode is mandatory")
 	@Length(min = 6, max = 6, message = "Please provide valid pincode")
 	private String pincode;
-	
+
 	@NotBlank(message = "City is mandatory")
 	private String city;
-	
+
 	@NotBlank(message = "State is mandatory")
 	private String state;
-	
+
 	@NotBlank(message = "country is mandatory")
 	private String country;
-	
+
 	@ManyToMany(mappedBy = "addresses")
 	private Set<Customer> customer;
-	
+
 	public long getAddressId() {
 		return addressId;
 	}
@@ -113,6 +113,13 @@ public class Address {
 
 	public void setCustomer(Set<Customer> customer) {
 		this.customer = customer;
+	}
+
+	@Override
+	public String toString() {
+		return "Address [addressId=" + addressId + ", houseNumber=" + houseNumber + ", addLine1=" + addLine1
+				+ ", addLine2=" + addLine2 + ", pincode=" + pincode + ", city=" + city + ", state=" + state
+				+ ", country=" + country + ", customer=" + customer + "]";
 	}
 
 }

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,61 +19,59 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-	
+
 @Entity
 public class Customer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long customerId;
-	
+
 	@NotBlank(message = "First name is mandatory")
 	private String firstName;
-	
+
 	private String middleName;
-	
+
 	@NotBlank(message = "Last name is mandatory")
 	private String lastName;
-	
+
 	@NotBlank(message = "Email is mandatory")
 	private String email;
-	
+
 	@Length(max = 10, min = 10)
 	@NotBlank(message = "Mobile is mandatory")
 	private String mobile;
-	
+
 	private String phone;
-	
+
 	private boolean isOwner;
-	
+
 	private boolean isActive;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh.mm.ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh.mm.ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedDate;
-	
+
 	private String createdBy;
-	
+
 	private String updatedBy;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private Users user;
-	
+
 	@ManyToMany(targetEntity = Address.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "customer_address", joinColumns = { @JoinColumn(name = "customerId") }, inverseJoinColumns = {
 			@JoinColumn(name = "addressId") })
 	private Set<Address> addresses;
 
-	@ManyToMany(targetEntity = Subscription.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "customer_subscription", joinColumns = { @JoinColumn(name = "customerId") }, inverseJoinColumns = {
-			@JoinColumn(name = "subscriptionId") })
+	@OneToMany(mappedBy = "customer")
 	private Set<Subscription> subscriptions;
-	
+
 	public long getCustomerId() {
 		return customerId;
 	}
@@ -200,5 +199,14 @@ public class Customer {
 	public void setSubscriptions(Set<Subscription> subscriptions) {
 		this.subscriptions = subscriptions;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Customer [customerId=" + customerId + ", firstName=" + firstName + ", middleName=" + middleName
+				+ ", lastName=" + lastName + ", email=" + email + ", mobile=" + mobile + ", phone=" + phone
+				+ ", isOwner=" + isOwner + ", isActive=" + isActive + ", createdDate=" + createdDate + ", updatedDate="
+				+ updatedDate + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", user=" + user
+				+ ", addresses=" + addresses + ", subscriptions=" + subscriptions + "]";
+	}
+
 }
