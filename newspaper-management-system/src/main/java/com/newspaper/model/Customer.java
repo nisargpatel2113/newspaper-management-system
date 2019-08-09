@@ -72,6 +72,12 @@ public class Customer {
 	@OneToMany(mappedBy = "customer")
 	private Set<Subscription> subscriptions;
 
+	@OneToOne(mappedBy = "customer")
+	private Balance balance;
+
+	@OneToOne(mappedBy = "customer")
+	private Invoice invoice;
+
 	public long getCustomerId() {
 		return customerId;
 	}
@@ -200,13 +206,30 @@ public class Customer {
 		this.subscriptions = subscriptions;
 	}
 
+	public Balance getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Balance balance) {
+		this.balance = balance;
+	}
+
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
+	}
+
 	@Override
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", firstName=" + firstName + ", middleName=" + middleName
 				+ ", lastName=" + lastName + ", email=" + email + ", mobile=" + mobile + ", phone=" + phone
 				+ ", isOwner=" + isOwner + ", isActive=" + isActive + ", createdDate=" + createdDate + ", updatedDate="
 				+ updatedDate + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", user=" + user
-				+ ", addresses=" + addresses + ", subscriptions=" + subscriptions + "]";
+				+ ", addresses=" + addresses + ", subscriptions=" + subscriptions + ", balance=" + balance
+				+ ", invoice=" + invoice + "]";
 	}
 
 }

@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.newspaper.model;
 
 import java.util.Date;
@@ -5,29 +8,29 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * @author tarkhand
+ *
+ */
 @Entity
-public class Subscription {
+public class Invoice {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long subscriptionId;
+	private long invoiceId;
 
-	@NotBlank(message = "Subscription days is mandatory")
-	private int subscriptionDays;
-
-	private boolean isActive;
+	private double invoiceAmount;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh.mm.ss")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -41,35 +44,24 @@ public class Subscription {
 
 	private String updatedBy;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customerId")
 	private Customer customer;
 
-	@OneToMany(mappedBy = "subscription")
-	private Set<Newspaper> newspaper;
-
-	public long getSubscriptionId() {
-		return subscriptionId;
+	public long getInvoiceId() {
+		return invoiceId;
 	}
 
-	public void setSubscriptionId(long subscriptionId) {
-		this.subscriptionId = subscriptionId;
+	public void setInvoiceId(long invoiceId) {
+		this.invoiceId = invoiceId;
 	}
 
-	public int getSubscriptionDays() {
-		return subscriptionDays;
+	public double getInvoiceAmount() {
+		return invoiceAmount;
 	}
 
-	public void setSubscriptionDays(int subscriptionDays) {
-		this.subscriptionDays = subscriptionDays;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	public void setInvoiceAmount(double invoiceAmount) {
+		this.invoiceAmount = invoiceAmount;
 	}
 
 	public Date getCreatedDate() {
@@ -78,6 +70,14 @@ public class Subscription {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 
 	public String getCreatedBy() {
@@ -96,14 +96,6 @@ public class Subscription {
 		this.updatedBy = updatedBy;
 	}
 
-	public Date getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Date updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -112,20 +104,11 @@ public class Subscription {
 		this.customer = customer;
 	}
 
-	public Set<Newspaper> getNewspaper() {
-		return newspaper;
-	}
-
-	public void setNewspaper(Set<Newspaper> newspaper) {
-		this.newspaper = newspaper;
-	}
-
 	@Override
 	public String toString() {
-		return "Subscription [subscriptionId=" + subscriptionId + ", subscriptionDays=" + subscriptionDays
-				+ ", isActive=" + isActive + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate
-				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", customer=" + customer + ", newspaper="
-				+ newspaper + "]";
+		return "Invoice [invoiceId=" + invoiceId + ", invoiceAmount=" + invoiceAmount + ", createdDate=" + createdDate
+				+ ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
+				+ ", customer=" + customer + "]";
 	}
 
 }
