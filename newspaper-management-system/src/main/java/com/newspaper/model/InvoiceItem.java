@@ -1,11 +1,6 @@
-/**
- * 
- */
 package com.newspaper.model;
 
-import java.nio.MappedByteBuffer;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,26 +8,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- * @author tarkhand
- *
- */
 @Entity
-public class Invoice {
-
+public class InvoiceItem {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long invoiceId;
-
-	private double invoiceAmount;
-
+	private long invoiceItemId;
+	
+	private double billAmount;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh.mm.ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
@@ -44,28 +35,29 @@ public class Invoice {
 	private String createdBy;
 
 	private String updatedBy;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "customerId")
-	private Customer customer;
 	
-	@OneToMany(mappedBy = "invoice")
-	private Set<InvoiceItem> invoiceItem;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "subscriptionId")
+	private Subscription subscription;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "invoiceId")
+	private Invoice invoice;
 
-	public long getInvoiceId() {
-		return invoiceId;
+	public long getInvoiceItemId() {
+		return invoiceItemId;
 	}
 
-	public void setInvoiceId(long invoiceId) {
-		this.invoiceId = invoiceId;
+	public void setInvoiceItemId(long invoiceItemId) {
+		this.invoiceItemId = invoiceItemId;
 	}
 
-	public double getInvoiceAmount() {
-		return invoiceAmount;
+	public double getBillAmount() {
+		return billAmount;
 	}
 
-	public void setInvoiceAmount(double invoiceAmount) {
-		this.invoiceAmount = invoiceAmount;
+	public void setBillAmount(double billAmount) {
+		this.billAmount = billAmount;
 	}
 
 	public Date getCreatedDate() {
@@ -100,27 +92,20 @@ public class Invoice {
 		this.updatedBy = updatedBy;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public Subscription getSubscription() {
+		return subscription;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setSubscription(Subscription subscription) {
+		this.subscription = subscription;
 	}
 
-	@Override
-	public String toString() {
-		return "Invoice [invoiceId=" + invoiceId + ", invoiceAmount=" + invoiceAmount + ", createdDate=" + createdDate
-				+ ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
-				+ ", customer=" + customer + "]";
+	public Invoice getInvoice() {
+		return invoice;
 	}
 
-	public Set<InvoiceItem> getInvoiceItem() {
-		return invoiceItem;
-	}
-
-	public void setInvoiceItem(Set<InvoiceItem> invoiceItem) {
-		this.invoiceItem = invoiceItem;
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
 	}
 
 }

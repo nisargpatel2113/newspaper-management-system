@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
@@ -46,6 +47,9 @@ public class Subscription {
 
 	@OneToMany(mappedBy = "subscription")
 	private Set<Newspaper> newspaper;
+	
+	@OneToOne(mappedBy = "subscription")
+	private InvoiceItem invoiceItem;
 
 	public long getSubscriptionId() {
 		return subscriptionId;
